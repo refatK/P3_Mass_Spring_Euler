@@ -1,0 +1,16 @@
+<RCC>
+    <qresource prefix="/">
+        <file>OpenGL/shaders/fline.glsl</file>
+        <file>OpenGL/shaders/fshader.glsl</file>
+        <file>OpenGL/shaders/TextFragmentShader.glsl</file>
+        <file>OpenGL/shaders/TextVertexShader.glsl</file>
+        <file>OpenGL/shaders/vline.glsl</file>
+        <file>OpenGL/shaders/vshader.glsl</file>
+        <file>OpenGL/shaders/fphong.glsl</file>
+        <file>OpenGL/shaders/vphong.glsl</file>
+        <file>OpenGL/shaders/fshaderpoints.glsl</file>
+        <file>OpenGL/shaders/vshaderpoints.glsl</file>
+        <file>OpenGL/shaders/ftxtshader.glsl</file>
+        <file>OpenGL/shaders/vtxtshader.glsl</file>
+    </qresource>
+</RCC>

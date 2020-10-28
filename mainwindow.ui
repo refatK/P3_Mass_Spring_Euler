@@ -1,0 +1,242 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>600</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <widget class="A2_2DWidget" name="OpenGL"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>800</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menuFile">
+    <property name="title">
+     <string>File</string>
+    </property>
+    <widget class="QMenu" name="menuSetMode">
+     <property name="title">
+      <string>SetMode</string>
+     </property>
+     <addaction name="actionSelect_and_Edit_Joints"/>
+     <addaction name="actionSelect_and_Edit_Links"/>
+     <addaction name="separator"/>
+     <addaction name="actionShowtime"/>
+    </widget>
+    <addaction name="actionLoad"/>
+    <addaction name="actionSave"/>
+    <addaction name="separator"/>
+    <addaction name="menuSetMode"/>
+    <addaction name="actionParameters"/>
+    <addaction name="actionReset_View"/>
+    <addaction name="actionTest_Eigen"/>
+   </widget>
+   <addaction name="menuFile"/>
+  </widget>
+  <widget class="QToolBar" name="mainToolBar">
+   <attribute name="toolBarArea">
+    <enum>TopToolBarArea</enum>
+   </attribute>
+   <attribute name="toolBarBreak">
+    <bool>false</bool>
+   </attribute>
+  </widget>
+  <widget class="QStatusBar" name="statusBar"/>
+  <action name="actionLoad">
+   <property name="text">
+    <string>Load</string>
+   </property>
+  </action>
+  <action name="actionSave">
+   <property name="text">
+    <string>Save</string>
+   </property>
+  </action>
+  <action name="actionView">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>View</string>
+   </property>
+  </action>
+  <action name="actionSelect_and_Edit_Joints">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Select and Edit Joints</string>
+   </property>
+  </action>
+  <action name="actionReset_View">
+   <property name="text">
+    <string>Reset View</string>
+   </property>
+  </action>
+  <action name="actionSelect_and_Edit_Obstacles">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Select and Edit Constraints</string>
+   </property>
+  </action>
+  <action name="actionUse_knot_Reguralizer">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Use knot Reguralizer</string>
+   </property>
+  </action>
+  <action name="actionShowtime">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Showtime</string>
+   </property>
+  </action>
+  <action name="actionHumerus">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Humerus</string>
+   </property>
+  </action>
+  <action name="actionScapula">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Scapula</string>
+   </property>
+  </action>
+  <action name="actionHumerus_LIne">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Humerus LIne</string>
+   </property>
+  </action>
+  <action name="actionScapula_LIne">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Scapula LIne</string>
+   </property>
+  </action>
+  <action name="actionSkeleton_Line">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Skeleton Line</string>
+   </property>
+  </action>
+  <action name="actionOrigin_Axis">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Origin Axis</string>
+   </property>
+  </action>
+  <action name="actionMyo_Axis">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Myo Axis</string>
+   </property>
+  </action>
+  <action name="actionHumerus_Manual_Transform">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Humerus Manual Transform</string>
+   </property>
+  </action>
+  <action name="actionSet_Default_Parameters">
+   <property name="text">
+    <string>Set Default Parameters</string>
+   </property>
+  </action>
+  <action name="actionSelect_and_Edit_Links">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Select and Edit Springs</string>
+   </property>
+  </action>
+  <action name="actionTest_Eigen">
+   <property name="text">
+    <string>Test Eigen</string>
+   </property>
+  </action>
+  <action name="actionParameters">
+   <property name="text">
+    <string>Parameters</string>
+   </property>
+  </action>
+ </widget>
+ <layoutdefault spacing="6" margin="11"/>
+ <customwidgets>
+  <customwidget>
+   <class>A2_2DWidget</class>
+   <extends>QWidget</extends>
+   <header>OpenGL/widgets/A2_2Dwidget.h</header>
+   <container>1</container>
+  </customwidget>
+ </customwidgets>
+ <resources/>
+ <connections/>
+</ui>

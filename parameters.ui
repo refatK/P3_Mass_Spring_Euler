@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Parameters</class>
+ <widget class="QDialog" name="Parameters">
+  <property name="windowModality">
+   <enum>Qt::WindowModal</enum>
+  </property>
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>490</width>
+    <height>394</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Parameters</string>
+  </property>
+  <widget class="QWidget" name="verticalLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>10</y>
+     <width>471</width>
+     <height>341</height>
+    </rect>
+   </property>
+   <layout class="QVBoxLayout" name="verticalLayout">
+    <item>
+     <layout class="QHBoxLayout" name="gravityBox">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="gravityLabel">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Gravity (m/s^2)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDoubleSpinBox" name="gravityValue">
+        <property name="toolTip">
+         <string>Gravitational acceleration.</string>
+        </property>
+        <property name="accessibleName">
+         <string/>
+        </property>
+        <property name="singleStep">
+         <double>0.100000000000000</double>
+        </property>
+        <property name="value">
+         <double>9.800000000000001</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="positionalDampingBox">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="positionalLabel">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Positional Damping Constant (N/m)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDoubleSpinBox" name="positionalDamping">
+        <property name="singleStep">
+         <double>0.050000000000000</double>
+        </property>
+        <property name="value">
+         <double>0.500000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="massBox">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <item>
+       <widget class="QLabel" name="massLabel">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="text">
+         <string>Joint Mass (kg)</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDoubleSpinBox" name="mass">
+        <property name="singleStep">
+         <double>0.050000000000000</double>
+        </property>
+        <property name="value">
+         <double>1.000000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+    <item>
+     <layout class="QHBoxLayout" name="solverBox">
+      <property name="spacing">
+       <number>6</number>
+      </property>
+      <item alignment="Qt::AlignRight">
+       <widget class="QCheckBox" name="implictEulerValue">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="layoutDirection">
+         <enum>Qt::RightToLeft</enum>
+        </property>
+        <property name="text">
+         <string>Use Implicit Euler</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="timestepLabel">
+        <property name="enabled">
+         <bool>true</bool>
+        </property>
+        <property name="frameShape">
+         <enum>QFrame::NoFrame</enum>
+        </property>
+        <property name="text">
+         <string>Timestep (s)</string>
+        </property>
+        <property name="alignment">
+         <set>Qt::AlignCenter</set>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QDoubleSpinBox" name="timestepValue">
+        <property name="frame">
+         <bool>true</bool>
+        </property>
+        <property name="decimals">
+         <number>4</number>
+        </property>
+        <property name="maximum">
+         <double>50.000000000000000</double>
+        </property>
+        <property name="singleStep">
+         <double>0.000010000000000</double>
+        </property>
+        <property name="value">
+         <double>0.200000000000000</double>
+        </property>
+       </widget>
+      </item>
+     </layout>
+    </item>
+   </layout>
+  </widget>
+  <widget class="QDialogButtonBox" name="buttonBox">
+   <property name="geometry">
+    <rect>
+     <x>50</x>
+     <y>360</y>
+     <width>369</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="layoutDirection">
+    <enum>Qt::LeftToRight</enum>
+   </property>
+   <property name="orientation">
+    <enum>Qt::Horizontal</enum>
+   </property>
+   <property name="standardButtons">
+    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+   </property>
+   <property name="centerButtons">
+    <bool>true</bool>
+   </property>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>Parameters</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>Parameters</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>
