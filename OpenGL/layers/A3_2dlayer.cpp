@@ -14,7 +14,7 @@ using namespace std;
 
 A3_2DLayer::A3_2DLayer(OGLTWidget* parent)
     :OGLLayer(parent), m_UIMode(1), m_selected(0),
-      m_solution(m_joints, m_springs, m_gravity, m_positional_damping, m_mass, m_timestep, m_implicit)
+      m_solution(m_joints, m_springs, m_gravity, m_positional_damping, m_mass, m_timestep, m_implicit, m_stiffness)
 {
 }
 

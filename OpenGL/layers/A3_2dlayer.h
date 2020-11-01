@@ -63,6 +63,7 @@ public:
     float m_positional_damping;
     float m_mass;
     bool m_implicit;
+    float m_stiffness;
     float m_timestep;
 
     DrawElement2D* m_selected;

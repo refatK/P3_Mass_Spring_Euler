@@ -223,9 +223,6 @@ void MainWindow::on_actionTest_Eigen_triggered()
 void MainWindow::on_actionParameters_triggered()
 {
     params->show();
-    qDebug() << "HAPPENS!!";
-    //params->setModal(true);
-    //params->exec();
 }
 
 void MainWindow::params_updated()
@@ -242,6 +239,7 @@ void MainWindow::params_updated()
         l->m_mass = params->m_mass;
         l->m_timestep = params->m_timestep;
         l->m_implicit = params->m_implicit;
+        l->m_stiffness = params->m_stiffness;
     }
 
 }

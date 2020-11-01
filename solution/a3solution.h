@@ -15,7 +15,7 @@ using Eigen::MatrixXf;
 class A3Solution
 {
 public:
-    A3Solution(std::vector<Joint2D*>& joints, std::vector<Spring2D*>& springs, float& gravity, float& positional_damping, float& rotational_damping, float& timestep, bool& implicit);
+    A3Solution(std::vector<Joint2D*>& joints, std::vector<Spring2D*>& springs, float& gravity, float& positional_damping, float& rotational_damping, float& timestep, bool& implicit, float& stiffness);
 
     // OpenGL members (these are updated for you)
     std::vector<Joint2D*>& m_joints;
@@ -24,8 +24,8 @@ public:
     float& m_positional_damping;
     float& m_rotational_damping;
     float& m_timestep;
+    float& m_stiffness;
     bool& m_implicit;
-
 
     // Separate tracking of positions and velocities
     void update();

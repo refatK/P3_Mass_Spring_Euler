@@ -18,9 +18,11 @@ Parameters::Parameters(QWidget *parent) :
     m_mass = ui->mass->value();
     m_implicit = ui->implictEulerValue->isChecked();
     m_timestep = ui->timestepValue->value();
+    m_stiffness = ui->stiffness->value();
     m_gravity_new = m_gravity;
     m_positional_damping_new = m_positional_damping;
     m_mass_new = m_mass;
+    m_stiffness_new = m_stiffness;
 }
 
 Parameters::~Parameters()
@@ -35,9 +37,9 @@ void Parameters::on_buttonBox_accepted()
     m_mass = m_mass_new;
     m_implicit = m_implicit_new;
     m_timestep = m_timestep_new;
+    m_stiffness = m_stiffness_new;
 
     emit this->dialog_accepted();
-
 
 }
 
@@ -48,12 +50,14 @@ void Parameters::on_buttonBox_rejected()
     m_mass_new = m_mass;
     m_implicit_new = m_implicit;
     m_timestep_new = m_timestep;
+    m_stiffness_new = m_stiffness;
 
     ui->gravityValue->setValue(m_gravity);
     ui->positionalDamping->setValue(m_positional_damping);
     ui->mass->setValue(m_mass);
     ui->implictEulerValue->setTristate(m_implicit);
     ui->timestepValue->setValue(m_timestep);
+    ui->stiffness->setValue(m_stiffness);
 }
 
 void Parameters::on_positionalDamping_valueChanged(double arg1)
@@ -79,6 +83,7 @@ void Parameters::showEvent(QShowEvent * event){
     m_mass_new = m_mass;
     m_implicit_new = m_implicit;
     m_timestep_new = m_timestep;
+    m_stiffness_new = m_stiffness;
 }
 
 
@@ -93,3 +98,8 @@ void Parameters::on_implictEulerValue_clicked(bool checked)
     m_implicit_new = checked;
 }
 
+
+void Parameters::on_stiffness_valueChanged(double arg1)
+{
+    m_stiffness_new = arg1;
+}

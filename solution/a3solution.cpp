@@ -10,14 +10,15 @@ using Eigen::VectorXf;
 using Eigen::MatrixXd;
 using Eigen::MatrixXf;
 
-A3Solution::A3Solution(std::vector<Joint2D*>& joints, std::vector<Spring2D*>& springs, float& gravity, float& positional_damping, float& rotational_damping, float& timestep, bool& implicit)
+A3Solution::A3Solution(std::vector<Joint2D*>& joints, std::vector<Spring2D*>& springs, float& gravity, float& positional_damping, float& rotational_damping, float& timestep, bool& implicit, float& stiffness)
     :m_joints(joints),
     m_links(springs),
     m_gravity(gravity),
     m_positional_damping(positional_damping),
     m_rotational_damping(rotational_damping),
     m_timestep(timestep),
-    m_implicit(implicit)
+    m_implicit(implicit),
+    m_stiffness(stiffness)
     {
 
 }
