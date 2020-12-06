@@ -32,22 +32,74 @@ void A3Solution::update(Joint2D* selected, QVector2D mouse_pos){
 
 void A3Solution::update(){
 
-    for (Joint2D* joint : m_joints) {
-        // skip locked joints
-        if (joint->is_locked()) { continue; }
+    if (!this->isInitialized) {
+        this->initializeYk();
+    }
+
+
+    for (int i=0; i<this->m_moving_joints.size(); ++i) {
+        Joint2D* joint = m_moving_joints[i];
 
         // compute forces for all joints
-
         Vector2f force_gravity = this->calcGravitationalForce(this->m_mass);
         std::vector<Vector2f> forces_spring = this->calcSpringForces(joint, joint->get_springs());
-        // TODO: damping force
-
+        Vector2f force_damp = this->calcDampingForce(this->getVelocity(i));
     }
 
     // do Explict Euler
 }
 
-Vector2f A3Solution::calcDampingForcw(Vector2f velocity) {
+void A3Solution::initializeYk(){
+    // set all moveable joints
+    this->m_moving_joints.clear();
+    for (Joint2D* joint : this->m_joints) {
+        if (!joint->is_locked()) {
+            this->m_moving_joints.push_back(joint);
+        }
+    }
+
+    // now set yk
+    float yk_length = 4*this->m_moving_joints.size();
+    VectorXf yk(yk_length);
+    VectorXf yk_prime(yk_length);
+
+    for (int i=0; i<yk_length; i=i+4) {
+        int jointIndex = i/4;
+        Joint2D* joint = m_moving_joints[jointIndex];
+
+        yk[i+xPOS] = joint->get_position().x();
+        yk[i+yPOS] = joint->get_position().y();
+        yk[i+xV] = 0.0f;
+        yk[i+yV] = 0.0f;
+
+        // TODO: probs should be removed
+        yk_prime[i+p_xV] = yk[i+xV];
+        yk_prime[i+p_yV] = yk[i+yV];
+        yk_prime[i+p_xA] = 0.0f;
+        yk_prime[i+p_yA] = 0.0f;
+    }
+
+    this->m_yk = yk;
+    this->m_yk_prime = yk_prime;
+    isInitialized = true;
+}
+
+
+Vector2f A3Solution::getPosition(int i) {
+    return Vector2f(this->m_yk[i+xPOS], this->m_yk[i+yPOS]);
+}
+
+
+Vector2f A3Solution::getVelocity(int i) {
+    return Vector2f(this->m_yk[i+xV], this->m_yk[i+yV]);
+}
+
+Vector2f A3Solution::getAcceleration(int i) {
+    return Vector2f(this->m_yk_prime[i+p_xA], this->m_yk_prime[i+p_yA]);
+}
+
+
+Vector2f A3Solution::calcDampingForce(Vector2f velocity) {
     return -1 * this->m_positional_damping * velocity;
 }
 
@@ -71,6 +123,7 @@ std::vector<Vector2f> A3Solution::calcSpringForces(Joint2D* joint, std::vector<S
 Vector2f A3Solution::calcGravitationalForce(float mass) {
     Vector2f vec_unit_down = -1*Vector2f::UnitY();
     return mass * this->m_gravity * vec_unit_down;
+}
 
 
 Vector2f A3Solution::qtToEigenMath(QVector2D qtVec) {
