@@ -49,9 +49,12 @@ private:
     // Utils
     Vector2f qtToEigenMath(QVector2D qtVec);
     QVector2D eigenMathToQt(Vector2f mathVec);
-    Vector2f getPosition(int i);
-    Vector2f getVelocity(int i);
-    Vector2f getAcceleration(int i);
+    Vector2f getPosition(VectorXf yk, int i);
+    Vector2f getVelocity(VectorXf yk, int i);
+    Vector2f getAcceleration(VectorXf yk_prime, int i);
+    void setPosition(VectorXf& yk, int i, Vector2f pos);
+    void setVelocity(VectorXf& yk, VectorXf& yk_prime, int i, Vector2f v);
+    void setAcceleration(VectorXf& yk_prime, int i, Vector2f a);
 
     // Data
     std::vector<Joint2D*> m_moving_joints;
@@ -66,6 +69,10 @@ private:
     Vector2f calcGravitationalForce(float mass);
     std::vector<Vector2f> calcSpringForces(Joint2D* joint, std::vector<Spring2D*> springs);
     Vector2f calcDampingForce(Vector2f velocity);
+
+    void doExplicitEuler(VectorXf& yk, VectorXf& yk_prime);
+    void updatePositionsInUi(std::vector<Joint2D*>& allJointsToUpdate, VectorXf newYk);
+
 };
 
 #endif // A2SOLUTION_H

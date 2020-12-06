@@ -21,6 +21,7 @@ A3Solution::A3Solution(std::vector<Joint2D*>& joints, std::vector<Spring2D*>& sp
     m_stiffness(stiffness)
     {
 
+    this->isInitialized = false;
 }
 
 
@@ -40,13 +41,45 @@ void A3Solution::update(){
     for (int i=0; i<this->m_moving_joints.size(); ++i) {
         Joint2D* joint = m_moving_joints[i];
 
-        // compute forces for all joints
+        // compute forces for all joints and set
         Vector2f force_gravity = this->calcGravitationalForce(this->m_mass);
+
         std::vector<Vector2f> forces_spring = this->calcSpringForces(joint, joint->get_springs());
-        Vector2f force_damp = this->calcDampingForce(this->getVelocity(i));
+        Vector2f force_spring_total = Vector2f(0.0f,0.0f);
+        for (Vector2f sForce : forces_spring) {
+            force_spring_total.x() += sForce.x();
+            force_spring_total.y() += sForce.y();
+        }
+
+        Vector2f force_damp = this->calcDampingForce(this->getVelocity(this->m_yk, i));
+
+        Vector2f net_force = force_gravity + force_spring_total + force_damp; // TODO: add all forces
+        Vector2f net_accel = (1.0f / this->m_mass) * net_force;
+        this->setAcceleration(this->m_yk_prime, i, net_accel);
     }
 
     // do Explict Euler
+    this->doExplicitEuler(this->m_yk, this->m_yk_prime);
+
+    // update positions
+    this->updatePositionsInUi(this->m_moving_joints, this->m_yk);
+}
+
+void A3Solution::updatePositionsInUi(std::vector<Joint2D*>& allJointsToUpdate, VectorXf newYk) {
+    for (int i=0; i<allJointsToUpdate.size(); ++i) {
+        allJointsToUpdate[i]->set_position(this->eigenMathToQt(this->getPosition(newYk, i)));
+    }
+}
+
+void A3Solution::doExplicitEuler(VectorXf& yk, VectorXf& yk_prime){
+    VectorXf newYk = yk + (yk_prime * this->m_timestep);
+    yk = newYk;
+
+    // need to update yk_prime too
+    for (int i=0; i<this->m_moving_joints.size(); ++i) {
+        Vector2f newV = this->getVelocity(yk, i);
+        this->setVelocity(yk, yk_prime,i, newV);
+    }
 }
 
 void A3Solution::initializeYk(){
@@ -60,16 +93,17 @@ void A3Solution::initializeYk(){
     }
 
     // now set yk
-    float yk_length = 4*this->m_moving_joints.size();
+    int yk_length = 4*this->m_moving_joints.size();
     VectorXf yk(yk_length);
     VectorXf yk_prime(yk_length);
 
     for (int i=0; i<yk_length; i=i+4) {
         int jointIndex = i/4;
         Joint2D* joint = m_moving_joints[jointIndex];
+        Vector2f jointMathPos = this->qtToEigenMath(joint->get_position());
 
-        yk[i+xPOS] = joint->get_position().x();
-        yk[i+yPOS] = joint->get_position().y();
+        yk[i+xPOS] = jointMathPos.x();
+        yk[i+yPOS] = jointMathPos.y();
         yk[i+xV] = 0.0f;
         yk[i+yV] = 0.0f;
 
@@ -85,22 +119,40 @@ void A3Solution::initializeYk(){
     isInitialized = true;
 }
 
-
-Vector2f A3Solution::getPosition(int i) {
+void A3Solution::setPosition(VectorXf& yk, int i, Vector2f pos) {
     int x = i*4;
-    return Vector2f(this->m_yk[x+xPOS], this->m_yk[x+yPOS]);
+    yk[x+xPOS] = pos.x();
+    yk[x+yPOS] = pos.y();
 }
 
-Vector2f A3Solution::getVelocity(int i) {
+void A3Solution::setVelocity(VectorXf& yk, VectorXf& yk_prime, int i, Vector2f v) {
     int x = i*4;
-    return Vector2f(this->m_yk[x+xV], this->m_yk[x+yV]);
+    yk[x+xV] = v.x();
+    yk[x+yV] = v.y();
+    yk_prime[x+p_xV] = v.x();
+    yk_prime[x+p_yV] = v.y();
 }
 
-Vector2f A3Solution::getAcceleration(int i) {
+void A3Solution::setAcceleration(VectorXf& yk_prime, int i, Vector2f a) {
     int x = i*4;
-    return Vector2f(this->m_yk_prime[x+p_xA], this->m_yk_prime[x+p_yA]);
+    yk_prime[x+p_xA] = a.x();
+    yk_prime[x+p_yA] = a.y();
 }
 
+Vector2f A3Solution::getPosition(VectorXf yk, int i) {
+    int x = i*4;
+    return Vector2f(yk[x+xPOS], yk[x+yPOS]);
+}
+
+Vector2f A3Solution::getVelocity(VectorXf yk, int i) {
+    int x = i*4;
+    return Vector2f(yk[x+xV], yk[x+yV]);
+}
+
+Vector2f A3Solution::getAcceleration(VectorXf yk_prime, int i) {
+    int x = i*4;
+    return Vector2f(yk_prime[x+p_xA], yk_prime[x+p_yA]);
+}
 
 Vector2f A3Solution::calcDampingForce(Vector2f velocity) {
     return -1 * this->m_positional_damping * velocity;
