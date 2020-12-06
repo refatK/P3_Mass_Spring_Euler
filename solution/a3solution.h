@@ -33,6 +33,17 @@ public:
 
     static void test_eigen_library();
 
+private:
+
+    // Utils
+    Vector2f qtToEigenMath(QVector2D qtVec);
+    QVector2D eigenMathToQt(Vector2f mathVec);
+
+    // Force Calculation
+    Vector2f calcGravitationalForce(float mass);
+    std::vector<Vector2f> calcSpringForces(Joint2D* joint, std::vector<Spring2D*> springs);
+    Vector2f calcDampingForcw(Vector2f velocity);
+
 };
 
 #endif // A2SOLUTION_H
