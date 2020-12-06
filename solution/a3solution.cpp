@@ -26,17 +26,29 @@ A3Solution::A3Solution(std::vector<Joint2D*>& joints, std::vector<Spring2D*>& sp
 
 
 void A3Solution::update(Joint2D* selected, QVector2D mouse_pos){
+
+    std::cout << "hello" << std::endl;
+
+    if (selected->is_locked()) {
+        return;
+    }
+
+    this->selected = selected;
     selected->set_position(mouse_pos);
 
-    // for external force
+    std::cout << "bye" << std::endl;
+
 }
 
 void A3Solution::update(){
 
-    if (!this->isInitialized) {
-        this->initializeYk();
+    if (this->changesWereMade()) {
+        this->isInitialized = false;
     }
 
+    if (!isInitialized) {
+        this->initializeYk();
+    }
 
     for (int i=0; i<this->m_moving_joints.size(); ++i) {
         Joint2D* joint = m_moving_joints[i];
@@ -61,9 +73,36 @@ void A3Solution::update(){
     // do Explict Euler
     this->doExplicitEuler(this->m_yk, this->m_yk_prime);
 
-    // update positions
+    // update positions in Ui
     this->updatePositionsInUi(this->m_moving_joints, this->m_yk);
 }
+
+
+bool A3Solution::changesWereMade() {
+    if (!isInitialized) {
+        this->allCurrentJoints.clear();
+        for (Joint2D* joint : this->m_joints) {
+            this->allCurrentJoints.push_back(joint);
+        }
+
+        this->jointCount = this->m_joints.size();
+        return true;
+    }
+
+    if (this->jointCount != this->m_joints.size() || this->allCurrentJoints != this->m_joints) {
+        this->allCurrentJoints.clear();
+        for (Joint2D* joint : this->m_joints) {
+            this->allCurrentJoints.push_back(joint);
+        }
+
+        this->jointCount = this->m_joints.size();
+        return true;
+    }
+
+
+    return false;
+}
+
 
 void A3Solution::updatePositionsInUi(std::vector<Joint2D*>& allJointsToUpdate, VectorXf newYk) {
     for (int i=0; i<allJointsToUpdate.size(); ++i) {
@@ -104,12 +143,15 @@ void A3Solution::initializeYk(){
 
         yk[i+xPOS] = jointMathPos.x();
         yk[i+yPOS] = jointMathPos.y();
-        yk[i+xV] = 0.0f;
-        yk[i+yV] = 0.0f;
 
-        // TODO: probs should be removed
+        if (!isInitialized) {
+            yk[i+xV] = 0.0f;
+            yk[i+yV] = 0.0f;
+        }
+
         yk_prime[i+p_xV] = yk[i+xV];
         yk_prime[i+p_yV] = yk[i+yV];
+        // this is ok as the acceleration must always be calculated anyways
         yk_prime[i+p_xA] = 0.0f;
         yk_prime[i+p_yA] = 0.0f;
     }
