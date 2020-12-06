@@ -52,6 +52,7 @@ void A3Solution::update(){
 void A3Solution::initializeYk(){
     // set all moveable joints
     this->m_moving_joints.clear();
+
     for (Joint2D* joint : this->m_joints) {
         if (!joint->is_locked()) {
             this->m_moving_joints.push_back(joint);
@@ -86,16 +87,18 @@ void A3Solution::initializeYk(){
 
 
 Vector2f A3Solution::getPosition(int i) {
-    return Vector2f(this->m_yk[i+xPOS], this->m_yk[i+yPOS]);
+    int x = i*4;
+    return Vector2f(this->m_yk[x+xPOS], this->m_yk[x+yPOS]);
 }
 
-
 Vector2f A3Solution::getVelocity(int i) {
-    return Vector2f(this->m_yk[i+xV], this->m_yk[i+yV]);
+    int x = i*4;
+    return Vector2f(this->m_yk[x+xV], this->m_yk[x+yV]);
 }
 
 Vector2f A3Solution::getAcceleration(int i) {
-    return Vector2f(this->m_yk_prime[i+p_xA], this->m_yk_prime[i+p_yA]);
+    int x = i*4;
+    return Vector2f(this->m_yk_prime[x+p_xA], this->m_yk_prime[x+p_yA]);
 }
 
 
