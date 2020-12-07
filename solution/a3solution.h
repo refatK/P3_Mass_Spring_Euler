@@ -58,13 +58,16 @@ private:
 
     // Data
     std::vector<Joint2D*> m_moving_joints;
-    Joint2D* selected;
     VectorXf m_yk;
     VectorXf m_yk_prime;
     bool isInitialized = false;
 
     std::vector<Joint2D*> allCurrentJoints;
     int jointCount = -1;
+
+    Joint2D* selected;
+    QVector2D mousePos;
+    int selectedIndex = -1;
 
     // Setup
     void initializeYk();

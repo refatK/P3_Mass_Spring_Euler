@@ -26,18 +26,14 @@ A3Solution::A3Solution(std::vector<Joint2D*>& joints, std::vector<Spring2D*>& sp
 
 
 void A3Solution::update(Joint2D* selected, QVector2D mouse_pos){
-
-    std::cout << "hello" << std::endl;
-
     if (selected->is_locked()) {
         return;
     }
 
     this->selected = selected;
-    selected->set_position(mouse_pos);
-
-    std::cout << "bye" << std::endl;
-
+    this->mousePos = mouse_pos;
+//    selected->set_position(mouse_pos);
+//    this->selected = nullptr;
 }
 
 void A3Solution::update(){
@@ -52,6 +48,12 @@ void A3Solution::update(){
 
     for (int i=0; i<this->m_moving_joints.size(); ++i) {
         Joint2D* joint = m_moving_joints[i];
+
+        if (joint == this->selected) {
+            this->selectedIndex = i;
+            continue;
+        }
+
 
         // compute forces for all joints and set
         Vector2f force_gravity = this->calcGravitationalForce(this->m_mass);
@@ -116,8 +118,25 @@ void A3Solution::doExplicitEuler(VectorXf& yk, VectorXf& yk_prime){
 
     // need to update yk_prime too
     for (int i=0; i<this->m_moving_joints.size(); ++i) {
+        if (i == selectedIndex) {
+            continue;
+        }
+
         Vector2f newV = this->getVelocity(yk, i);
         this->setVelocity(yk, yk_prime,i, newV);
+    }
+
+    // selection of mouse case
+    if (selectedIndex >= 0) {
+        int index = selectedIndex;
+        Joint2D* sel = this->m_moving_joints[index];
+//        this->setPosition(yk, index, this->qtToEigenMath(sel->get_position()));
+        this->setPosition(yk, index, this->qtToEigenMath(this->mousePos));
+        this->setVelocity(yk, yk_prime, index, Vector2f(0.0f, 0.0f));
+        this->setAcceleration(yk_prime, index, Vector2f(0.0f, 0.0f));
+
+        this->selectedIndex = -1;
+        this->selected = nullptr;
     }
 }
 
