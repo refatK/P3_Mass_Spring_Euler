@@ -170,6 +170,7 @@ void A3Solution::initializeYk(){
 
         yk_prime[i+p_xV] = yk[i+xV];
         yk_prime[i+p_yV] = yk[i+yV];
+
         // this is ok as the acceleration must always be calculated anyways
         yk_prime[i+p_xA] = 0.0f;
         yk_prime[i+p_yA] = 0.0f;
