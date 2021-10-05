@@ -1,4 +1,6 @@
-# COMP477 A3 - Mass Spring System using Explicit Euler Method
+[<-- View Related Projects](https://github.com/refatK/Computer-Animation-Assignments)
+
+# Mass Spring System using Explicit Euler Method
 
 ![Project Sample Gif](https://user-images.githubusercontent.com/31963426/117589828-11178a00-b0fa-11eb-93e6-2690106302ea.gif)
 
@@ -12,4 +14,4 @@ Since this is a Qt Creator Project, QT Creator IDE should be installed. Once the
 
 ##  View Implementation Work
 
-The project started with a given starter code, and the work done can be seen in [this PR](https://github.com/refatK/COMP477_A3_Mass_Spring/pull/1).
+The project started with a given starter code, and the work done can be seen in [this PR](https://github.com/refatK/P3_Mass_Spring_Euler/pull/1).
